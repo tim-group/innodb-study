@@ -13,6 +13,7 @@ public enum PageType {
     FSP_HDR(8),
     XDES(9),
     BLOB(10),
+    ZBLOB(11),
     ZBLOB2(12),
     INDEX(17855);
 
