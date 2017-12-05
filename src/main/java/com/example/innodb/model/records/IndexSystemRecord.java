@@ -31,7 +31,7 @@ public final class IndexSystemRecord {
     }
 
     public int getRecordEndPageOffset() {
-        return 120;
+        return 99;
     }
 
 }
