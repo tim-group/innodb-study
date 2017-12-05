@@ -20,8 +20,8 @@ public final class RecordHeader {
         return pageBuffer.getShort(offsetToBottomOfRecordHeader - 2);
     }
 
-    public short getRecordType() {
-        return (short)(pageBuffer.getShort(offsetToBottomOfRecordHeader - 4) & 0b0000000000000111);
+    public RecordType getRecordType() {
+        return RecordType.values()[(pageBuffer.getShort(offsetToBottomOfRecordHeader - 4) & 0b0000000000000111)];
     }
 
     public short getOrder() {
@@ -34,6 +34,13 @@ public final class RecordHeader {
 
     public short getInfoFlags() {
         return (short)(pageBuffer.getShort(offsetToBottomOfRecordHeader - 5) & 0b11110000);
+    }
+
+    public enum RecordType {
+        CONVENTIONAL,
+        NODE_POINTER,
+        INFIMUM,
+        SUPREMUM;
     }
 
 }
