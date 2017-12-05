@@ -1,0 +1,16 @@
+/bin
+/build
+/out
+/log
+/classes
+/.gradle
+/.idea
+/.settings
+/.classpath
+/.project
+/null
+/log.directory_IS_UNDEFINED
+/*.iml
+
+*.swp
+*.*~
