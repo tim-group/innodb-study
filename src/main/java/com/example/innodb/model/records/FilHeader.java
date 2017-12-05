@@ -13,27 +13,27 @@ import java.nio.ByteBuffer;
  */
 public final class FilHeader {
 
-    private final ByteBuffer buffer;
+    private final ByteBuffer pageBuffer;
 
-    public FilHeader(ByteBuffer buffer) {
-        this.buffer = buffer;
+    public FilHeader(ByteBuffer pageBuffer) {
+        this.pageBuffer = pageBuffer;
     }
 
 
     public int getOffset() {
-        return buffer.getInt(4);
+        return pageBuffer.getInt(4);
     }
 
     public PageType getType() {
-        return PageType.valueOf(buffer.getShort(24));
+        return PageType.valueOf(pageBuffer.getShort(24));
     }
 
     public int getPreviousPage() {
-        return buffer.getInt(8);
+        return pageBuffer.getInt(8);
     }
 
     public int getNextPage() {
-        return buffer.getInt(12);
+        return pageBuffer.getInt(12);
     }
 
 }

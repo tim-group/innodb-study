@@ -17,7 +17,7 @@ public final class Page {
 
     public Page(ByteBuffer buffer) {
         this.buffer = buffer;
-        this.filHeader = getRecord(FilHeader.class, 0);
+        this.filHeader = new FilHeader(buffer);
     }
 
     public static Page from(ByteBuffer buffer) {
@@ -42,15 +42,6 @@ public final class Page {
 
     public int getNextPage() {
         return filHeader.getNextPage();
-    }
-
-    public <T> T getRecord(Class<T> recordType, int offset) {
-        try {
-            buffer.position(offset);
-            return recordType.getConstructor(ByteBuffer.class).newInstance(buffer.slice());
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
     }
 
     public ByteBuffer pageBuffer() {

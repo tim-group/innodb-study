@@ -3,9 +3,9 @@ package com.example.innodb.exercise1;
 import com.example.innodb.model.Page;
 import com.example.innodb.model.PageType;
 import com.example.innodb.model.TableFileReader;
+import com.example.innodb.model.records.DataRecord;
 import com.example.innodb.model.records.IndexHeader;
 import com.example.innodb.model.records.IndexSystemRecord;
-import com.example.innodb.model.records.RecordHeader;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -29,20 +29,21 @@ public class Reader {
         try (Stream<Page> pages = TableFileReader.loadPages("src/main/resources/t1.ibd")) {
             Page firstIndexPage = pages.filter(page -> page.getType() == PageType.INDEX).findFirst().get();
 
-
-
             // see https://blog.jcole.us/2013/01/07/the-physical-structure-of-innodb-index-pages/
-            IndexHeader indexHeader = firstIndexPage.getRecord(IndexHeader.class, IndexHeader.PAGE_OFFSET);
+
+            IndexHeader indexHeader = new IndexHeader(firstIndexPage.pageBuffer());
             System.out.println("Number of records in index: " + indexHeader.getNumberOfRecords());
 
-            IndexSystemRecord indexSystemRecord = firstIndexPage.getRecord(IndexSystemRecord.class, IndexSystemRecord.PAGE_OFFSET);
+            IndexSystemRecord indexSystemRecord = new IndexSystemRecord(firstIndexPage.pageBuffer());
 
+            DataRecord r1 = new DataRecord(firstIndexPage.pageBuffer(), indexSystemRecord.getRecordEndPageOffset() + indexSystemRecord.getInfimum().getNextRecordOffset());
 
-            System.out.println(indexSystemRecord.getInfimum().getNextRecordOffset());
+            System.out.println(r1.getRecordHeader().getRecordType());
+            System.out.println(r1.getRecordHeader().getNextRecordOffset());
 
-            RecordHeader recordHeader = new RecordHeader(firstIndexPage.pageBuffer(), 120 + indexSystemRecord.getInfimum().getNextRecordOffset());
-            System.out.println(recordHeader.getRecordType());
-
+            DataRecord r2 = new DataRecord(firstIndexPage.pageBuffer(), r1.getPageOffset() + r1.getRecordHeader().getNextRecordOffset());
+            System.out.println(r2.getRecordHeader().getRecordType());
+            System.out.println(r2.getRecordHeader().getNextRecordOffset());
         }
     }
 

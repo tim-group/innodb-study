@@ -14,22 +14,24 @@ import java.nio.ByteBuffer;
  */
 public final class IndexSystemRecord {
 
-    public static final int PAGE_OFFSET = 94;
-
     private final ByteBuffer buffer;
 
     public IndexSystemRecord(ByteBuffer buffer) {
         this.buffer = buffer;
-        Preconditions.checkArgument(ByteBufferUtils.readAsciiString(buffer, 99 - PAGE_OFFSET, 8).equals("infimum\0"));
-        Preconditions.checkArgument(ByteBufferUtils.readAsciiString(buffer, 112 - PAGE_OFFSET, 8).equals("supremum"));
+        Preconditions.checkArgument(ByteBufferUtils.readAsciiString(buffer, 99, 8).equals("infimum\0"));
+        Preconditions.checkArgument(ByteBufferUtils.readAsciiString(buffer, 112, 8).equals("supremum"));
     }
 
     public RecordHeader getSupremum() {
-        return new RecordHeader(buffer, 112 - PAGE_OFFSET);
+        return new RecordHeader(buffer, 112);
     }
 
     public RecordHeader getInfimum() {
-        return new RecordHeader(buffer, 99 - PAGE_OFFSET);
+        return new RecordHeader(buffer, 99);
+    }
+
+    public int getRecordEndPageOffset() {
+        return 120;
     }
 
 }
