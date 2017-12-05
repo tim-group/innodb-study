@@ -37,7 +37,7 @@ public class Reader {
 
             IndexHeader indexHeader = new IndexHeader(firstIndexPage.pageBuffer());
 
-            System.out.println("Number of records in index: " + indexHeader.getNumberOfRecords() + " in format " + indexHeader.getRowFormat());
+            System.out.println("Number of records in index: " + indexHeader.getNumberOfRecords() + " in format " + indexHeader.getRowFormat() + ". Level " + indexHeader.getLevel());
 
             IndexSystemRecord indexSystemRecord = new IndexSystemRecord(firstIndexPage.pageBuffer());
 
